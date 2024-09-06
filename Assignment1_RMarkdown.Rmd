@@ -1,0 +1,56 @@
+---
+title: "ANA 515 Assignment 1 R Markdown"
+author: "Michelle Tan"
+date: "2024-09-05"
+output: 
+  html_document:
+      theme:
+        bootswatch: minty
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("tidyverse")
+#install.packages("knitr")
+#install.packages("bslib")
+
+library(tidyverse)
+library(knitr)
+library(bslib)
+```
+
+## R Markdown
+
+```{r Data, include = FALSE}
+# Code chunk to get the dataset from GitHub/fivethirtyeight
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/fifa/fifa_countries_audience.csv"
+fifa <- read_csv(url)
+glimpse(fifa)
+```
+
+```{r, include = FALSE}
+#Create a new dataset with the name of ‘smallpops’ by using this filter: 
+#population_share <= 0.6
+smallpops <- filter(fifa, population_share<=0.6)
+```
+
+```{r summary}
+summary(smallpops)
+```
+We have data about `r nrow(fifa)` countries. Only `r nrow(smallpops)` have a population share of less than 0.6. The distribution of this is shown below:
+
+# Population Share
+```{r filtered-dist, echo = FALSE, message = FALSE, warning = FALSE} 
+ggplot(fifa, aes(population_share)) + 
+  geom_histogram(color="white")
+```
+
+
+# Distribution of GDP Weighted Share
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+ggplot(smallpops, aes(x = gdp_weighted_share)) + 
+         geom_histogram(fill = "blue") 
+         
+```
+
+
